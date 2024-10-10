@@ -1,0 +1,85 @@
+entrada = "sapato:80.50,camisa:50.20"
+
+pares = entrada.split(',')
+
+item_1, preco_1 = pares[0].split(':')
+item_2, preco_2 = pares[1].split(':')
+
+preco_1 = float(preco_1)
+preco_2 = float(preco_2)
+
+print(f"item_1 = {item_1}")
+print(f"preco_1 = {preco_1}")
+print(f"item_2 = {item_2}")
+print(f"preco_2 = {preco_2}")
+
+entrada = "sapato:80.50,camisa:50.20"
+
+precos = {}
+
+pares = entrada.split(',')
+
+for par in pares:
+    chave, valor = par.split(':')
+    precos[chave] = float(valor)
+
+print(precos)
+
+entrada = "sapato:80.50,camisa:50.20"
+
+precos = {}
+
+pares = entrada.split(',')
+
+for par in pares:
+    chave, valor = par.split(':')
+    precos[chave] = float(valor)
+
+print(precos)
+
+entrada = "sapato:80.50,camisa:50.20"
+
+precos = {}
+
+pares = entrada.split(',')
+
+for par in pares:
+    chave, valor = par.split(':')
+    if chave.startswith('s'):
+        precos[chave] = float(valor)
+
+print(precos)
+def eh_palindromo_puro(s):
+    return s == s[::-1]
+
+print(eh_palindromo_puro("ovo"))  
+print(eh_palindromo_puro("amor a roma"))  
+print(eh_palindromo_puro("Ovo")) 
+import re
+
+def eh_palindromo_flexivel(s):
+    s = re.sub(r'[^a-zA-Z]', '', s).lower()
+    return s == s[::-1]
+
+print(eh_palindromo_flexivel("Ovo"))  
+print(eh_palindromo_flexivel("Socorram-me, subi no ônibus em marrocos"))  
+print(eh_palindromo_flexivel("amor a roma")) 
+def parênteses_pareados(s):
+    pilha = []
+    pares = {')': '(', ']': '[', '}': '{'}
+    
+    for char in s:
+        if char in '([{':
+            pilha.append(char)
+        elif char in ')]}':
+            if not pilha or pilha[-1] != pares[char]:
+                return False
+            pilha.pop()
+    
+    return len(pilha) == 0
+
+print(parênteses_pareados("O teste (obrigatório) é para amanhã!"))  
+print(parênteses_pareados("[(1 + 2) * 4] - (3+1)")) 
+print(parênteses_pareados("O teste (obrigatório é para amanhã!")) 
+print(parênteses_pareados("O teste (obrigatório] é para amanhã!"))  
+print(parênteses_pareados("[(1 + 2] * 4) - (3+1)"))  
