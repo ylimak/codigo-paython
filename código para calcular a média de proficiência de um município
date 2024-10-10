@@ -1,0 +1,95 @@
+import pandas as pd
+import ast
+
+def carregar_dados():
+    try:
+        # Substitua 'caminho/para/seus/dados.csv' pelo caminho do seu arquivo CSV
+        df = pd.read_csv('caminho/para/seus/dados.csv', sep=';', encoding='utf-8')
+        return df
+    except FileNotFoundError:
+        print("Arquivo não encontrado. Verifique o caminho do arquivo.")
+        raise
+    except Exception as e:
+        print(f"Ocorreu um erro ao carregar os dados: {e}")
+        raise
+
+def obter_media_proficiência(df, municipio):
+    try:
+        municipio_dados = df[df['Município'] == municipio]
+        if municipio_dados.empty:
+            raise ValueError("Município não encontrado.")
+        
+        medias = municipio_dados.groupby(['Disciplina', 'Turno', 'Série'])['Proficiência'].mean().reset_index()
+        return medias
+    except ValueError as ve:
+        print(ve)
+        raise
+    except Exception as e:
+        print(f"Ocorreu um erro ao calcular a média: {e}")
+        raise
+
+def ler_arquivo(nome_arquivo):
+    try:
+        with open(nome_arquivo, 'r', encoding='utf-8') as file:
+            conteudo = file.read()
+        return conteudo
+    except FileNotFoundError:
+        print("Arquivo não encontrado. Verifique o caminho do arquivo.")
+        raise
+    except Exception as e:
+        print(f"Ocorreu um erro ao ler o arquivo: {e}")
+        raise
+
+def listar_funcoes(doc):
+    try:
+        tree = ast.parse(doc)
+        funcoes = [node for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)]
+        
+        if not funcoes:
+            print("Nenhuma função encontrada no arquivo.")
+            return
+        
+        for func in funcoes:
+            docstring = ast.get_docstring(func) or "Sem docstring"
+            print(f"Função: {func.name}, Docstring: {docstring}")
+    except Exception as e:
+        print(f"Ocorreu um erro ao listar as funções: {e}")
+        raise
+
+def main():
+    while True:
+        print("\nEscolha uma opção:")
+        print("1. Calcular média de proficiência do SARESP")
+        print("2. Listar funções e docstrings de um arquivo Python")
+        print("3. Sair")
+        
+        opcao = input("Digite o número da opção: ").strip()
+        
+        if opcao == '1':
+            try:
+                df = carregar_dados()
+                municipio = input("Digite o nome do município: ").strip()
+                medias = obter_media_proficiência(df, municipio)
+                
+                print("\nMédia de Proficiência:")
+                print(medias)
+            except Exception:
+                print("Não foi possível concluir a operação.")
+        
+        elif opcao == '2':
+            nome_arquivo = input("Digite o caminho do arquivo Python: ").strip()
+            try:
+                conteudo = ler_arquivo(nome_arquivo)
+                listar_funcoes(conteudo)
+            except Exception:
+                print("Não foi possível concluir a operação.")
+        
+        elif opcao == '3':
+            print("Saindo do programa.")
+            break
+        
+        else:
+            print("Opção inválida. Tente novamente.")
+
+if __name__ == '__main__':
+    main()
