@@ -1,0 +1,26 @@
+
+def obter_coeficiente(nome):
+    while True:
+        try:
+            valor = float(input(f'Digite o valor de {nome}: '))
+        except ValueError:
+            print(f"Valor de {nome} não pode ser convertido em número real.")
+        else:
+            return valor
+        finally:
+            print(f"Tente novamente para o valor de {nome}.")
+
+def fazer_a_conta(a, b, c):
+    delta = b**2 - 4*a*c
+    if delta < 0:
+        raise ValueError("Equação não tem soluções reais.")
+    
+    x1 = (-b + math.sqrt(delta)) / (2 * a)
+    x2 = (-b - math.sqrt(delta)) / (2 * a)
+    return x1, x2
+
+def imprimir_resultado(x1, x2):
+    print('As soluções são', x1, "e", x2)
+
+if __name__ == '__main__':
+    main()
